@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+{% if jailkit_chrootsh is defined %}
+{%   for chrootsh in jailkit_chrootsh|sort %}
+{%     if chrootsh.name is defined %}
+{%       if chrootsh.type is defined and chrootsh.type == 'group' %}
+[group {{ chrootsh.name }}]
+{%       else %}
+[{{ chrootsh.name }}]
+{%       endif %}
+env = {{ chrootsh.env|sort|join(', ') if chrootsh.env is defined else '' }}
+injail_shell = {{ injail_shell if injail_shell is defined else '' }}
+relax_home_group = {{ '1' if chrootsh.relax_home_group is defined and chrootsh.relax_home_group else '0' }}
+relax_home_group_permissions = {{ '1' if chrootsh.relax_home_group_permissions is defined and chrootsh.relax_home_group_permissions else '0' }}
+relax_home_other_permissions = {{ '1' if chrootsh.relax_home_other_permissions is defined and chrootsh.relax_home_other_permissions else '0' }}
+skip_injail_passwd_check = {{ '1' if chrootsh.skip_injail_passwd_check is defined and chrootsh.skip_injail_passwd_check else '0' }}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}

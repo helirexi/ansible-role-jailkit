@@ -1,0 +1,79 @@
+---
+jailkit_init:
+  - name: basicshell
+    groups: [ 'root' ]
+    includesections:
+      - uidbasics
+    paths:
+      - /bin/bash
+      - /bin/cat
+      - /bin/chmod
+      - /bin/cp
+      - /bin/cpio
+      - /bin/date
+      - /bin/dd
+      - /bin/echo
+      - /bin/egrep
+      - /bin/false
+      - /bin/fgrep
+      - /bin/grep
+      - /bin/gunzip
+      - /bin/gzip
+      - /bin/ln
+      - /bin/ls
+      - /bin/mkdir
+      - /bin/mktemp
+      - /bin/more
+      - /bin/mv
+      - /bin/pwd
+      - /bin/rm
+      - /bin/rmdir
+      - /bin/sed
+      - /bin/sh
+      - /bin/sleep
+      - /bin/sync
+      - /bin/tar
+      - /bin/touch
+      - /bin/true
+      - /bin/zcat
+      - /etc/motd
+      - /etc/issue
+      - /etc/bashrc
+      - /etc/profile
+    users: [ 'root' ]
+  - name: logbasics
+    need_logsocket: True
+    paths:
+      - /etc/localtime
+  - name: jk_lsh
+    groups: [ 'root']
+    includesections:
+      - gidbasics
+      - uidbasics
+    paths:
+      - /etc/jailkit/jk_lsh.ini
+      - /sbin/jk_lsh
+    users: [ 'root' ]
+  - name: limitedshell
+    includesections:
+      - jk_lsh
+  - name: netbasics
+    paths:
+      - /lib/libnss_dns.so.2
+      - /lib64/libnss_dns.so.2
+      - /etc/host.conf
+      - /etc/hosts
+      - /etc/protocols
+      - /etc/resolv.conf
+      - /etc/services
+      - /lib/libnss_dns.so.2
+      - /lib64/libnss_dns.so.2
+  - name: uidbasics
+    paths:
+      - /etc/nsswitch.conf
+      - /etc/ld.so.conf
+      - /lib/libnsl.so.1
+      - /lib/libnss*.so.2
+      - /lib64/libnsl.so.1
+      - /lib64/libnss*.so.2
+...

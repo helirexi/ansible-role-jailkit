@@ -1,0 +1,19 @@
+---
+dependencies:
+  - linuxhq.lux
+galaxy_info:
+  author: tkimball83
+  description: RHEL/CentOS - chroot jail utilities
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+    - name: EL
+      versions:
+        - 5
+        - 6
+        - 7
+  galaxy_tags:
+    - chroot
+    - jailkit
+    - security
+...

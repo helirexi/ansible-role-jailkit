@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+{% if jailkit_update is defined %}
+{%   for update in jailkit_update|sort %}
+{%     if update.path is defined %}
+[{{ update.path }}]
+directories = {{ update.directories|sort|join(', ') if update.directories is defined else '' }}
+hardlinks = {{ '1' if update.hardlinks is defined and update.hardlinks else '0' }}
+skips = {{ update.skips|sort|join(', ') if update.skips is defined else '' }}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}

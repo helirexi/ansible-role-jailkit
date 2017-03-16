@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+{% if jailkit_uchroot is defined %}
+{%   for uchroot in jailkit_uchroot|sort %}
+{%     if uchroot.name is defined %}
+{%       if uchroot.type is defined and uchroot.type == 'group' %}
+[group {{ uchroot.name }}]
+{%       else %}
+[{{ uchroot.name }}]
+{%       endif %}
+allowed_jails = {{ uchroot.allowed_jails|sort|join(', ') if uchroot.allowed_jails is defined else '' }}
+skip_injail_passwd_check = {{ '1' if uchroot.skip_injail_passwd_check is defined and uchroot.skip_injail_passwd_check else '0' }}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}

@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+{% if jailkit_init is defined %}
+{%   for init in jailkit_init|sort %}
+{%     if init.name is defined %}
+[{{ init.name }}]
+comment = {{ init.comment if init.comment is defined else init.name }}
+devices = {{ init.devices|sort|join(', ') if init.devices is defined else '' }}
+emptydirs = {{ init.emptydirs|sort|join(', ') if init.emptydirs is defined else '' }}
+groups = {{ init.groups|sort|join(', ') if init.groups is defined else '' }}
+includesections = {{ init.includesections|sort|join(', ') if init.includesections is defined else '' }}
+need_logsocket = {{ '1' if init.need_logsocket is defined and init.need_logsocket else '0' }}
+paths = {{ init.paths|sort|join(', ') if init.paths is defined else '' }}
+paths_w_setuid = {{ init.paths_w_setuid|sort|join(', ') if init.paths_w_setuid is defined else '' }}
+users = {{ init.users|sort|join(', ') if init.users is defined else '' }}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}

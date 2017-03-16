@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+{% if jailkit_lsh is defined %}
+{%   for lsh in jailkit_lsh|sort %}
+{%     if lsh.name is defined %}
+{%       if lsh.type is defined and lsh.type == 'group' %}
+[group {{ lsh.name }}]
+{%       else %}
+[{{ lsh.name }}]
+{%       endif %}
+allow_word_expansion = {{ '1' if lsh.allow_word_expansion is defined and lsh.allow_word_expansion else '0' }}
+environment = {{ lsh.environment|sort|join(', ') if lsh.environment is defined else '' }}
+executables = {{ lsh.executables|sort|join(', ') if lsh.executables is defined else '' }}
+paths = {{ lsh.paths|sort|join(', ') if lsh.paths is defined else '' }}
+umask = {{ lsh.umask if lsh.umask is defined else '022' }}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}

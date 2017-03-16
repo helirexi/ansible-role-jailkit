@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+{% if jailkit_socketd is defined %}
+{%   for socket in jailkit_socketd|sort %}
+{%     if socket.path is defined %}
+[{{ socket.path }}]
+base = {{ socket.base if socket.base is defined else '1024' }}
+interval = {{ socket.interval if socket.interval is defined else '2.0' }}
+peak = {{ socket.peak if socket.peak is defined else '10240' }}
+
+{%     endif %}
+{%   endfor %}
+{% endif %}

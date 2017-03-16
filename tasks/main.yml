@@ -1,0 +1,29 @@
+---
+- name: Ensure that jailkit is installed
+  tags: jailkit
+  yum:
+    enablerepo: lux
+    name: jailkit
+    state: present
+    update_cache: yes
+  register: jailkit_yum
+
+- block:
+  - name: Applying jailkit configurations
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: root
+      group: root
+      mode: 0644
+    with_items:
+      - { src: jk_check.ini.j2, dest: /etc/jailkit/jk_check.ini }
+      - { src: jk_chrootsh.ini.j2, dest: /etc/jailkit/jk_chrootsh.ini }
+      - { src: jk_init.ini.j2, dest: /etc/jailkit/jk_init.ini }
+      - { src: jk_lsh.ini.j2, dest: /etc/jailkit/jk_lsh.ini }
+      - { src: jk_socketd.ini.j2, dest: /etc/jailkit/jk_socketd.ini }
+      - { src: jk_uchroot.ini.j2, dest: /etc/jailkit/jk_uchroot.ini }
+      - { src: jk_update.ini.j2, dest: /etc/jailkit/jk_update.ini }
+  tags: jailkit
+  when: jailkit_yum|success
+...
