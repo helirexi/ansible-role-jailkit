@@ -3,9 +3,15 @@
 {%   for socket in jk_socketd %}
 {%     if socket.path is defined %}
 [{{ socket.path }}]
-base = {{ socket.base if socket.base is defined else '1024' }}
-interval = {{ socket.interval if socket.interval is defined else '2.0' }}
-peak = {{ socket.peak if socket.peak is defined else '10240' }}
+{%       if socket.base is defined %}
+base = {{ socket.base }}
+{%       endif %}
+{%       if socket.interval is defined %}
+interval = {{ socket.interval }}
+{%       endif %}
+{%       if socket.peak is defined %}
+peak = {{ socket.peak }}
+{%       endif %}
 
 {%     endif %}
 {%   endfor %}

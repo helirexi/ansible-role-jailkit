@@ -3,10 +3,16 @@
 {%   for update in jk_update %}
 {%     if update.path is defined %}
 [{{ update.path }}]
-directories = {{ update.directories|sort|join(', ') if update.directories is defined else '' }}
-hardlinks = {{ '1' if update.hardlinks is defined and update.hardlinks else '0' }}
-skips = {{ update.skips|sort|join(', ') if update.skips is defined else '' }}
-
+{%       if update.directories is defined %}
+directories = {{ update.directories|sort|join(', ') }}
+{%       endif %}
+{%       if update.hardlinks is defined %}
+hardlinks = {{ update.hardlinks }}
+{%       endif %}
+{%       if update.skips is defined %}
+skips = {{ update.skips|sort|join(', ') }}
+{%       endif %}
 {%     endif %}
+
 {%   endfor %}
 {% endif %}

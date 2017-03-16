@@ -3,14 +3,28 @@
 {%   for check in jk_check %}
 {%     if check.path is defined %}
 [{{ check.path }}]
-ignorepatheverywhere = {{ check.ignorepatheverywhere|sort|join(', ') if check.ignorepatheverywhere is defined else '' }}
-ignorepathoncompare = {{ check.ignorepathoncompare|sort|join(', ') if check.ignorepathoncompare is defined else '' }} 
-ignoresetuidexecuteforuser = {{ check.ignoresetuidexecuteforuser|sort|join(', ') if check.ignoresetuidexecuteforuser is defined else '' }}
-ignoresetuidexecuteforgroup = {{ check.ignoresetuidexecuteforgroup|sort|join(', ') if check.ignoresetuidexecuteforgroup is defined else '' }}
-ignoresetuidexecuteforothers = {{ check.ignoresetuidexecuteforothers|sort|join(', ') if check.ignoresetuidexecuteforothers is defined else '' }}
-ignorewritableforgroup = {{ check.ignorewritableforgroup|sort|join(', ') if check.ignorewritableforgroup is defined else '' }}
-ignorewritableforothers = {{ check.ignorewritableforothers|sort|join(', ') if check.ignorewritableforothers is defined else '' }}
-
+{%       if check.ignorepatheverywhere is defined %}
+ignorepatheverywhere = {{ check.ignorepatheverywhere|sort|join(', ') }}
+{%       endif %}
+{%       if check.ignorepathoncompare is defined %}
+ignorepathoncompare = {{ check.ignorepathoncompare|sort|join(', ') }} 
+{%       endif %}
+{%       if check.ignoresetuidexecuteforuser is defined %}
+ignoresetuidexecuteforuser = {{ check.ignoresetuidexecuteforuser|sort|join(', ') }}
+{%       endif %}
+{%       if check.ignoresetuidexecuteforgroup is defined %}
+ignoresetuidexecuteforgroup = {{ check.ignoresetuidexecuteforgroup|sort|join(', ') }}
+{%       endif %}
+{%       if check.ignoresetuidexecuteforothers is defined %}
+ignoresetuidexecuteforothers = {{ check.ignoresetuidexecuteforothers|sort|join(', ') }}
+{%       endif %}
+{%       if check.ignorewritableforgroup is defined %}
+ignorewritableforgroup = {{ check.ignorewritableforgroup|sort|join(', ') }}
+{%       endif %}
+{%       if check.ignorewritableforothers is defined %}
+ignorewritableforothers = {{ check.ignorewritableforothers|sort|join(', ') }}
+{%       endif %}
 {%     endif %}
+
 {%   endfor %}
 {% endif %}
