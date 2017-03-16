@@ -92,7 +92,7 @@ Available variables are listed below, along with default values:
 
 Additional variables that are not defined by default:
 
-    jailkit_check:
+    jk_check:
       - path: /home/testchroot
         ignorepatheverywhere: []
         ignorepathoncompare: []
@@ -117,7 +117,7 @@ Additional variables that are not defined by default:
         injail_shell: /bin/bash
         skip_injail_passwd_check: True
 
-    jailkit_lsh:
+    jk_lsh:
       tkimball:
         allow_word_expansion: True
         environment:
@@ -128,13 +128,13 @@ Additional variables that are not defined by default:
         paths:
           - /usr/bin
 
-    jailkit_socketd:
+    jk_socketd:
       - path: /home/testchroot/dev/log
         base: 512
         interval: 5.0
         peak: 2048
 
-    jailkit_uchroot:
+    jk_uchroot:
       tkimball:
         allowed_jails:
           - /srv/tkimball
@@ -146,7 +146,7 @@ Additional variables that are not defined by default:
         group: True
         skip_injail_passwd_check: True
 
-    jailkit_update:
+    jk_update:
       - path: /home/testchroot
         directories:
           - /bin
