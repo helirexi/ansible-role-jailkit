@@ -106,16 +106,16 @@ Additional variables that are not defined by default:
       tkimball:
         env: [ 'DISPLAY' ]
         group: False
-        relax_home_group: True
-        relax_home_group_permissions: True
-        relax_home_other_permissions: True
+        relax_home_group: 1
+        relax_home_group_permissions: 1
+        relax_home_other_permissions: 1
       users:
         env:
           - TERM
           - PATH
         group: True
         injail_shell: /bin/bash
-        skip_injail_passwd_check: True
+        skip_injail_passwd_check: 0
 
     jk_lsh:
       tkimball:

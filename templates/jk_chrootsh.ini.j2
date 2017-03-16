@@ -1,17 +1,24 @@
 # {{ ansible_managed }}
 {% if jk_chrootsh is defined %}
-{%   for c in jk_chrootsh|sort %}
-{%     if jk_chrootsh[c]['group'] is defined and jk_chrootsh[c]['group'] %}
-[group {{ c }}]
+{%   for profile in jk_chrootsh|sort %}
+{%     if jk_chrootsh[profile]['group'] is defined and jk_chrootsh[profile]['group'] %}
+[group {{ profile }}]
 {%     else %}
-[{{ c }}]
+[{{ profile }}]
 {%     endif %}
-env = {{ jk_chrootsh[c]['env']|sort|join(', ') if jk_chrootsh[c]['env'] is defined else '' }}
-injail_shell = {{ jk_chrootsh[c]['injail_shell'] if jk_chrootsh[c]['injail_shell'] is defined else '' }}
-relax_home_group = {{ '1' if jk_chrootsh[c]['relax_home_group'] is defined and jk_chrootsh[c]['relax_home_group'] else '0' }}
-relax_home_group_permissions = {{ '1' if jk_chrootsh[c]['relax_home_group_permissions'] is defined and jk_chrootsh[c]['relax_home_group_permissions'] else '0' }}
-relax_home_other_permissions = {{ '1' if jk_chrootsh[c]['relax_home_other_permissions'] is defined and jk_chrootsh[c]['relax_home_other_permissions'] else '0' }}
-skip_injail_passwd_check = {{ '1' if jk_chrootsh[c]['skip_injail_passwd_check'] is defined and jk_chrootsh[c]['skip_injail_passwd_check'] else '0' }}
+{%     for key in jk_chrootsh[profile] %}
+{%       if key != 'group' %}
+{%         if jk_chrootsh[profile][key] is number %}
+{{ key }} = {{ jk_chrootsh[profile][key] }}
+{%         elif jk_chrootsh[profile][key] is string %}
+{{ key }} = {{ jk_chrootsh[profile][key] }}
+{%         elif jk_chrootsh[profile][key] is iterable %}
+{{ key }} = {{ jk_chrootsh[profile][key]|sort|join(', ') }}
+{%         else %}
+{{ key }} = {{ jk_chrootsh[profile][key] }}
+{%         endif %}
+{%       endif %}
+{%     endfor %}
 
 {%   endfor %}
 {% endif %}
