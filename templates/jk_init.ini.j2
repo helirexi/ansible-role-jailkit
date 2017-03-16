@@ -1,16 +1,14 @@
 # {{ ansible_managed }}
 {% if jk_init is defined %}
-{%   for i in jk_init|sort %}
-[{{ i }}]
-comment = {{ jk_init[i]['comment'] if jk_init[i]['comment'] is defined else i }}
-devices = {{ jk_init[i]['devices']|sort|join(', ') if jk_init[i]['devices'] is defined else '' }}
-emptydirs = {{ jk_init[i]['emptydirs']|sort|join(', ') if jk_init[i]['emptydirs'] is defined else '' }}
-groups = {{ jk_init[i]['groups']|sort|join(', ') if jk_init[i]['groups'] is defined else '' }}
-includesections = {{ jk_init[i]['includesections']|sort|join(', ') if jk_init[i]['includesections'] is defined else '' }}
-need_logsocket = {{ '1' if jk_init[i]['need_logsocket'] is defined and jk_init[i]['need_logsocket'] else '0' }}
-paths = {{ jk_init[i]['paths']|sort|join(', ') if jk_init[i]['paths'] is defined else '' }}
-paths_w_setuid = {{ jk_init[i]['paths_w_setuid']|sort|join(', ') if jk_init[i]['paths_w_setuid'] is defined else '' }}
-users = {{ jk_init[i]['users']|sort|join(', ') if jk_init[i]['users'] is defined else '' }}
+{%   for profile in jk_init|sort %}
+[{{ profile }}]
+{%     for key in jk_init[profile] %}
+{%       if jk_init[profile][key] is iterable %}
+{{ key }} = {{ jk_init[profile][key]|sort|join(', ') }}
+{%       else %}
+{{ key }} = {{ jk_init[profile][key] }}
+{%       endif %}
+{%     endfor %}
 
 {%   endfor %}
 {% endif %}

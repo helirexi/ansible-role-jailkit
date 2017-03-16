@@ -42,7 +42,7 @@ jk_init:
       - /etc/profile
     users: [ 'root' ]
   logbasics:
-    need_logsocket: True
+    need_logsocket: '1'
     paths:
       - /etc/localtime
   jk_lsh:

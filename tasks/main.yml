@@ -8,22 +8,47 @@
     update_cache: yes
   register: jailkit_yum
 
-- block:
-  - name: Applying jailkit configurations
-    template:
-      src: "{{ item.src }}"
-      dest: "{{ item.dest }}"
-      owner: root
-      group: root
-      mode: 0644
-    with_items:
-      - { src: jk_check.ini.j2, dest: /etc/jailkit/jk_check.ini }
-      - { src: jk_chrootsh.ini.j2, dest: /etc/jailkit/jk_chrootsh.ini }
-      - { src: jk_init.ini.j2, dest: /etc/jailkit/jk_init.ini }
-      - { src: jk_lsh.ini.j2, dest: /etc/jailkit/jk_lsh.ini }
-      - { src: jk_socketd.ini.j2, dest: /etc/jailkit/jk_socketd.ini }
-      - { src: jk_uchroot.ini.j2, dest: /etc/jailkit/jk_uchroot.ini }
-      - { src: jk_update.ini.j2, dest: /etc/jailkit/jk_update.ini }
+- name: Applying jailkit configurations
   tags: jailkit
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - { src: jk_check.ini.j2, dest: /etc/jailkit/jk_check.ini }
+    - { src: jk_chrootsh.ini.j2, dest: /etc/jailkit/jk_chrootsh.ini }
+    - { src: jk_init.ini.j2, dest: /etc/jailkit/jk_init.ini }
+    - { src: jk_lsh.ini.j2, dest: /etc/jailkit/jk_lsh.ini }
+    - { src: jk_socketd.ini.j2, dest: /etc/jailkit/jk_socketd.ini }
+    - { src: jk_uchroot.ini.j2, dest: /etc/jailkit/jk_uchroot.ini }
+    - { src: jk_update.ini.j2, dest: /etc/jailkit/jk_update.ini }
   when: jailkit_yum|success
+
+- block:
+  - name: Create chroot dirtree if applicable
+    file:
+      path: "{{ item.path }}"
+      owner: "{{ item.owner }}"
+      group: "{{ item.group }}"
+      mode: "{{ item.mode }}"
+      recurse: yes
+      state: directory
+    with_items: "{{ jk_create }}"
+    when:
+      - item.path is defined
+      - item.owner is defined
+      - item.group is defined
+      - item.mode is defined
+
+  - name: Execute jk_init if applicable
+    shell:
+      jk_init {{ item.path }} {{ item.profile }}
+    with_items: "{{ jk_create }}"
+    when:
+      - item.path is defined
+      - item.profile is defined
+  tags: jailkit
+  when: jk_create is defined
 ...

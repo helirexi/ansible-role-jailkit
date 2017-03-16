@@ -55,7 +55,7 @@ Available variables are listed below, along with default values:
           - /etc/profile
         users: [ 'root' ]
       logbasics:
-        need_logsocket: True
+        need_logsocket: '1'
         paths:
           - /etc/localtime
       jk_lsh:
@@ -166,6 +166,12 @@ Additional variables that are not defined by default:
     - hosts: servers
       roles:
         - role: linuxhq.jailkit
+          jk_create:
+            - path: /var/chroot/ngircd
+              group: root
+              owner: root
+              mode: '0755'
+              profile: netbasics
 
 ## License
 
