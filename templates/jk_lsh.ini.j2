@@ -8,9 +8,7 @@
 {%     endif %}
 {%     for key in jk_lsh[profile]|sort %}
 {%       if key != 'group' %}
-{%         if jk_lsh[profile][key] is number %}
-{{ key }} = {{ jk_lsh[profile][key] }}
-{%         elif jk_lsh[profile][key] is string %}
+{%         if jk_lsh[profile][key] is number or jk_lsh[profile][key] is string %}
 {{ key }} = {{ jk_lsh[profile][key] }}
 {%         elif jk_lsh[profile][key] is iterable %}
 {{ key }} = {{ jk_lsh[profile][key]|sort|join(', ') }}
