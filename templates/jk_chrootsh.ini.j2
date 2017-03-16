@@ -6,7 +6,7 @@
 {%     else %}
 [{{ profile }}]
 {%     endif %}
-{%     for key in jk_chrootsh[profile] %}
+{%     for key in jk_chrootsh[profile]|sort %}
 {%       if key != 'group' %}
 {%         if jk_chrootsh[profile][key] is number %}
 {{ key }} = {{ jk_chrootsh[profile][key] }}

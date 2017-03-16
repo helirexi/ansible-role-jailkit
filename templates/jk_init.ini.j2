@@ -2,7 +2,7 @@
 {% if jk_init is defined %}
 {%   for profile in jk_init|sort %}
 [{{ profile }}]
-{%     for key in jk_init[profile] %}
+{%     for key in jk_init[profile]|sort %}
 {%       if jk_init[profile][key] is iterable %}
 {{ key }} = {{ jk_init[profile][key]|sort|join(', ') }}
 {%       else %}
