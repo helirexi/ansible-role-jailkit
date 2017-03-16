@@ -1,7 +1,6 @@
 # {{ ansible_managed }}
-
-{% if jailkit_update is defined %}
-{%   for update in jailkit_update|sort %}
+{% if jk_update is defined %}
+{%   for update in jk_update %}
 {%     if update.path is defined %}
 [{{ update.path }}]
 directories = {{ update.directories|sort|join(', ') if update.directories is defined else '' }}

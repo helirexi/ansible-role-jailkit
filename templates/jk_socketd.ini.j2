@@ -1,7 +1,6 @@
 # {{ ansible_managed }}
-
-{% if jailkit_socketd is defined %}
-{%   for socket in jailkit_socketd|sort %}
+{% if jk_socketd is defined %}
+{%   for socket in jk_socketd %}
 {%     if socket.path is defined %}
 [{{ socket.path }}]
 base = {{ socket.base if socket.base is defined else '1024' }}

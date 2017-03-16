@@ -1,7 +1,6 @@
 # {{ ansible_managed }}
-
-{% if jailkit_check is defined %}
-{%   for check in jailkit_check|sort %}
+{% if jk_check is defined %}
+{%   for check in jk_check %}
 {%     if check.path is defined %}
 [{{ check.path }}]
 ignorepatheverywhere = {{ check.ignorepatheverywhere|sort|join(', ') if check.ignorepatheverywhere is defined else '' }}

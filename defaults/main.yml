@@ -1,6 +1,6 @@
 ---
-jailkit_init:
-  - name: basicshell
+jk_init:
+  basicshell:
     groups: [ 'root' ]
     includesections:
       - uidbasics
@@ -41,11 +41,11 @@ jailkit_init:
       - /etc/bashrc
       - /etc/profile
     users: [ 'root' ]
-  - name: logbasics
+  logbasics:
     need_logsocket: True
     paths:
       - /etc/localtime
-  - name: jk_lsh
+  jk_lsh:
     groups: [ 'root']
     includesections:
       - gidbasics
@@ -54,10 +54,10 @@ jailkit_init:
       - /etc/jailkit/jk_lsh.ini
       - /sbin/jk_lsh
     users: [ 'root' ]
-  - name: limitedshell
+  limitedshell:
     includesections:
       - jk_lsh
-  - name: netbasics
+  netbasics:
     paths:
       - /lib/libnss_dns.so.2
       - /lib64/libnss_dns.so.2
@@ -68,7 +68,7 @@ jailkit_init:
       - /etc/services
       - /lib/libnss_dns.so.2
       - /lib64/libnss_dns.so.2
-  - name: uidbasics
+  uidbasics:
     paths:
       - /etc/nsswitch.conf
       - /etc/ld.so.conf

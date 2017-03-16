@@ -12,8 +12,8 @@ None
 
 Available variables are listed below, along with default values:
 
-    jailkit_init:
-      - name: basicshell
+    jk_init:
+      basicshell:
         groups: [ 'root' ]
         includesections:
           - uidbasics
@@ -54,11 +54,11 @@ Available variables are listed below, along with default values:
           - /etc/bashrc
           - /etc/profile
         users: [ 'root' ]
-      - name: logbasics
+      logbasics:
         need_logsocket: True
         paths:
           - /etc/localtime
-      - name: jk_lsh
+      jk_lsh:
         groups: [ 'root']
         includesections:
           - gidbasics
@@ -67,10 +67,10 @@ Available variables are listed below, along with default values:
           - /etc/jailkit/jk_lsh.ini
           - /sbin/jk_lsh
         users: [ 'root' ]
-      - name: limitedshell
+      limitedshell:
         includesections:
           - jk_lsh
-      - name: netbasics
+      netbasics:
         paths:
           - /lib/libnss_dns.so.2
           - /lib64/libnss_dns.so.2
@@ -81,7 +81,7 @@ Available variables are listed below, along with default values:
           - /etc/services
           - /lib/libnss_dns.so.2
           - /lib64/libnss_dns.so.2
-      - name: uidbasics
+      uidbasics:
         paths:
           - /etc/nsswitch.conf
           - /etc/ld.so.conf
@@ -102,27 +102,29 @@ Additional variables that are not defined by default:
         ignorewritableforgroup: []
         ignorewritableforothers: []
 
-    jailkit_chrootsh:
-      - name: tkimball
+    jk_chrootsh:
+      tkimball:
         env: [ 'DISPLAY' ]
+        group: False
         relax_home_group: True
         relax_home_group_permissions: True
         relax_home_other_permissions: True
-      - name: users
+      users:
         env:
           - TERM
           - PATH
+        group: True
         injail_shell: /bin/bash
         skip_injail_passwd_check: True
-        type: group
 
     jailkit_lsh:
-      - name: tkimball
+      tkimball:
         allow_word_expansion: True
         environment:
           - TERM=linux
         executables:
           - /usr/bin/rsync
+        group: False
         paths:
           - /usr/bin
 
@@ -133,15 +135,16 @@ Additional variables that are not defined by default:
         peak: 2048
 
     jailkit_uchroot:
-      - name: tkimball
+      tkimball:
         allowed_jails:
           - /srv/tkimball
+        group: False
         skip_injail_passwd_check: True
-      - name: users
+      users:
         allowed_jails:
           - /srv/users
+        group: True
         skip_injail_passwd_check: True
-        type: group
 
     jailkit_update:
       - path: /home/testchroot

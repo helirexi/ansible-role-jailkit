@@ -1,19 +1,16 @@
 # {{ ansible_managed }}
+{% if jk_init is defined %}
+{%   for i in jk_init|sort %}
+[{{ i }}]
+comment = {{ jk_init[i]['comment'] if jk_init[i]['comment'] is defined else i }}
+devices = {{ jk_init[i]['devices']|sort|join(', ') if jk_init[i]['devices'] is defined else '' }}
+emptydirs = {{ jk_init[i]['emptydirs']|sort|join(', ') if jk_init[i]['emptydirs'] is defined else '' }}
+groups = {{ jk_init[i]['groups']|sort|join(', ') if jk_init[i]['groups'] is defined else '' }}
+includesections = {{ jk_init[i]['includesections']|sort|join(', ') if jk_init[i]['includesections'] is defined else '' }}
+need_logsocket = {{ '1' if jk_init[i]['need_logsocket'] is defined and jk_init[i]['need_logsocket'] else '0' }}
+paths = {{ jk_init[i]['paths']|sort|join(', ') if jk_init[i]['paths'] is defined else '' }}
+paths_w_setuid = {{ jk_init[i]['paths_w_setuid']|sort|join(', ') if jk_init[i]['paths_w_setuid'] is defined else '' }}
+users = {{ jk_init[i]['users']|sort|join(', ') if jk_init[i]['users'] is defined else '' }}
 
-{% if jailkit_init is defined %}
-{%   for init in jailkit_init|sort %}
-{%     if init.name is defined %}
-[{{ init.name }}]
-comment = {{ init.comment if init.comment is defined else init.name }}
-devices = {{ init.devices|sort|join(', ') if init.devices is defined else '' }}
-emptydirs = {{ init.emptydirs|sort|join(', ') if init.emptydirs is defined else '' }}
-groups = {{ init.groups|sort|join(', ') if init.groups is defined else '' }}
-includesections = {{ init.includesections|sort|join(', ') if init.includesections is defined else '' }}
-need_logsocket = {{ '1' if init.need_logsocket is defined and init.need_logsocket else '0' }}
-paths = {{ init.paths|sort|join(', ') if init.paths is defined else '' }}
-paths_w_setuid = {{ init.paths_w_setuid|sort|join(', ') if init.paths_w_setuid is defined else '' }}
-users = {{ init.users|sort|join(', ') if init.users is defined else '' }}
-
-{%     endif %}
 {%   endfor %}
 {% endif %}

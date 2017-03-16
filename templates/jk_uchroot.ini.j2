@@ -1,16 +1,13 @@
 # {{ ansible_managed }}
-
-{% if jailkit_uchroot is defined %}
-{%   for uchroot in jailkit_uchroot|sort %}
-{%     if uchroot.name is defined %}
-{%       if uchroot.type is defined and uchroot.type == 'group' %}
-[group {{ uchroot.name }}]
-{%       else %}
-[{{ uchroot.name }}]
-{%       endif %}
-allowed_jails = {{ uchroot.allowed_jails|sort|join(', ') if uchroot.allowed_jails is defined else '' }}
-skip_injail_passwd_check = {{ '1' if uchroot.skip_injail_passwd_check is defined and uchroot.skip_injail_passwd_check else '0' }}
-
+{% if jk_uchroot is defined %}
+{%   for u in jk_uchroot|sort %}
+{%     if jk_uchroot[u]['group'] is defined and jk_uchroot[u]['group'] %}
+[group {{ u }}]
+{%     else %}
+[{{ u }}]
 {%     endif %}
+allowed_jails = {{ jk_uchroot[u]['allowed_jails']|sort|join(', ') if jk_uchroot[u]['allowed_jails'] is defined else '' }}
+skip_injail_passwd_check = {{ '1' if jk_uchroot[u]['skip_injail_passwd_check'] is defined and jk_uchroot[u]['skip_injail_passwd_check'] else '0' }}
+
 {%   endfor %}
 {% endif %}

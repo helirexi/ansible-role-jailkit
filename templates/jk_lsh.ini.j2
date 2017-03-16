@@ -1,19 +1,16 @@
 # {{ ansible_managed }}
-
-{% if jailkit_lsh is defined %}
-{%   for lsh in jailkit_lsh|sort %}
-{%     if lsh.name is defined %}
-{%       if lsh.type is defined and lsh.type == 'group' %}
-[group {{ lsh.name }}]
-{%       else %}
-[{{ lsh.name }}]
-{%       endif %}
-allow_word_expansion = {{ '1' if lsh.allow_word_expansion is defined and lsh.allow_word_expansion else '0' }}
-environment = {{ lsh.environment|sort|join(', ') if lsh.environment is defined else '' }}
-executables = {{ lsh.executables|sort|join(', ') if lsh.executables is defined else '' }}
-paths = {{ lsh.paths|sort|join(', ') if lsh.paths is defined else '' }}
-umask = {{ lsh.umask if lsh.umask is defined else '022' }}
-
+{% if jk_lsh is defined %}
+{%   for l in jk_lsh|sort %}
+{%     if jk_lsh[l]['group'] is defined and jk_lsh[l]['group'] %}
+[group {{ l }}]
+{%     else %}
+[{{ l }}]
 {%     endif %}
+allow_word_expansion = {{ '1' if jk_lsh[l]['allow_word_expansion'] is defined and jk_lsh[l]['allow_word_expansion'] else '0' }}
+environment = {{ jk_lsh[l]['environment']|sort|join(', ') if jk_lsh[l]['environment'] is defined else '' }}
+executables = {{ jk_lsh[l]['executables']|sort|join(', ') if jk_lsh[l]['executables'] is defined else '' }}
+paths = {{ jk_lsh[l]['paths']|sort|join(', ') if jk_lsh[l]['paths'] is defined else '' }}
+umask = {{ jk_lsh[l]['umask'] if jk_lsh[l]['umask'] is defined else '022' }}
+
 {%   endfor %}
 {% endif %}
