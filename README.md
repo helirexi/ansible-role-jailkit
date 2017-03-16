@@ -151,7 +151,7 @@ Additional variables that are not defined by default:
         directories:
           - /bin
           - /lib
-        hardlinks: True
+        hardlinks: 1
         skips:
           - /usr/bin/firefox
           - /usr/lib/firefox
