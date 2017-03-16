@@ -1,16 +1,24 @@
 # {{ ansible_managed }}
 {% if jk_lsh is defined %}
-{%   for l in jk_lsh|sort %}
-{%     if jk_lsh[l]['group'] is defined and jk_lsh[l]['group'] %}
-[group {{ l }}]
+{%   for profile in jk_lsh|sort %}
+{%     if jk_lsh[profile]['group'] is defined and jk_lsh[profile]['group'] %}
+[group {{ profile }}]
 {%     else %}
-[{{ l }}]
+[{{ profile }}]
 {%     endif %}
-allow_word_expansion = {{ '1' if jk_lsh[l]['allow_word_expansion'] is defined and jk_lsh[l]['allow_word_expansion'] else '0' }}
-environment = {{ jk_lsh[l]['environment']|sort|join(', ') if jk_lsh[l]['environment'] is defined else '' }}
-executables = {{ jk_lsh[l]['executables']|sort|join(', ') if jk_lsh[l]['executables'] is defined else '' }}
-paths = {{ jk_lsh[l]['paths']|sort|join(', ') if jk_lsh[l]['paths'] is defined else '' }}
-umask = {{ jk_lsh[l]['umask'] if jk_lsh[l]['umask'] is defined else '022' }}
+{%     for key in jk_lsh[profile]|sort %}
+{%       if key != 'group' %}
+{%         if jk_lsh[profile][key] is number %}
+{{ key }} = {{ jk_lsh[profile][key] }}
+{%         elif jk_lsh[profile][key] is string %}
+{{ key }} = {{ jk_lsh[profile][key] }}
+{%         elif jk_lsh[profile][key] is iterable %}
+{{ key }} = {{ jk_lsh[profile][key]|sort|join(', ') }}
+{%         else %}
+{{ key }} = {{ jk_lsh[profile][key] }}
+{%         endif %}
+{%       endif %}
+{%     endfor %}
 
 {%   endfor %}
 {% endif %}

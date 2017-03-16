@@ -119,7 +119,7 @@ Additional variables that are not defined by default:
 
     jk_lsh:
       tkimball:
-        allow_word_expansion: True
+        allow_word_expansion: 1
         environment:
           - TERM=linux
         executables:
@@ -139,12 +139,12 @@ Additional variables that are not defined by default:
         allowed_jails:
           - /srv/tkimball
         group: False
-        skip_injail_passwd_check: True
+        skip_injail_passwd_check: 1
       users:
         allowed_jails:
           - /srv/users
         group: True
-        skip_injail_passwd_check: True
+        skip_injail_passwd_check: 1
 
     jk_update:
       - path: /home/testchroot

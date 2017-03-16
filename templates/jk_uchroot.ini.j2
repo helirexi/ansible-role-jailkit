@@ -1,13 +1,24 @@
 # {{ ansible_managed }}
 {% if jk_uchroot is defined %}
-{%   for u in jk_uchroot|sort %}
-{%     if jk_uchroot[u]['group'] is defined and jk_uchroot[u]['group'] %}
-[group {{ u }}]
+{%   for profile in jk_uchroot|sort %}
+{%     if jk_uchroot[profile]['group'] is defined and jk_uchroot[profile]['group'] %}
+[group {{ profile }}]
 {%     else %}
-[{{ u }}]
+[{{ profile }}]
 {%     endif %}
-allowed_jails = {{ jk_uchroot[u]['allowed_jails']|sort|join(', ') if jk_uchroot[u]['allowed_jails'] is defined else '' }}
-skip_injail_passwd_check = {{ '1' if jk_uchroot[u]['skip_injail_passwd_check'] is defined and jk_uchroot[u]['skip_injail_passwd_check'] else '0' }}
+{%     for key in jk_uchroot[profile]|sort %}
+{%       if key != 'group' %}
+{%         if jk_uchroot[profile][key] is number %}
+{{ key }} = {{ jk_uchroot[profile][key] }}
+{%         elif jk_uchroot[profile][key] is string %}
+{{ key }} = {{ jk_uchroot[profile][key] }}
+{%         elif jk_uchroot[profile][key] is iterable %}
+{{ key }} = {{ jk_uchroot[profile][key]|sort|join(', ') }}
+{%         else %}
+{{ key }} = {{ jk_uchroot[profile][key] }}
+{%         endif %}
+{%       endif %}
+{%     endfor %}
 
 {%   endfor %}
 {% endif %}
