@@ -3,7 +3,7 @@
 {%   for profile in jk_init|sort %}
 [{{ profile }}]
 {%     for key, value in jk_init[profile].iteritems()|sort %}
-{%       if value is iterable and value is not string%}
+{%       if value is iterable and value is not string %}
 {{ key }} = {{ value|sort|join(', ') }}
 {%       else %}
 {{ key }} = {{ value }}
