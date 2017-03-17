@@ -101,7 +101,6 @@ Additional variables that are not defined by default:
         ignoresetuidexecuteforothers: []
         ignorewritableforgroup: []
         ignorewritableforothers: []
-
     jk_chrootsh:
       tkimball:
         env: [ 'DISPLAY' ]
@@ -116,7 +115,12 @@ Additional variables that are not defined by default:
         group: True
         injail_shell: /bin/bash
         skip_injail_passwd_check: 0
-
+    jk_create:
+      - path: /path/to/chroot (recursive create)
+        group: root
+        owner: root
+        mode: '0755'
+        profile: netbasics (defined in jk_init)
     jk_lsh:
       tkimball:
         allow_word_expansion: 1
@@ -127,13 +131,11 @@ Additional variables that are not defined by default:
         group: False
         paths:
           - /usr/bin
-
     jk_socketd:
       - path: /home/testchroot/dev/log
         base: 512
         interval: 5.0
         peak: 2048
-
     jk_uchroot:
       tkimball:
         allowed_jails:
@@ -145,7 +147,6 @@ Additional variables that are not defined by default:
           - /srv/users
         group: True
         skip_injail_passwd_check: 1
-
     jk_update:
       - path: /home/testchroot
         directories:
