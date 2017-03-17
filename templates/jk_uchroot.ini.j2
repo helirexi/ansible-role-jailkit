@@ -6,14 +6,12 @@
 {%     else %}
 [{{ profile }}]
 {%     endif %}
-{%     for key in jk_uchroot[profile]|sort %}
+{%     for key, value in jk_uchroot[profile].iteritems()|sort %}
 {%       if key != 'group' %}
-{%         if jk_uchroot[profile][key] is number or jk_uchroot[profile][key] is string %}
-{{ key }} = {{ jk_uchroot[profile][key] }}
-{%         elif jk_uchroot[profile][key] is iterable %}
-{{ key }} = {{ jk_uchroot[profile][key]|sort|join(', ') }}
+{%         if value is iterable and value is not string %}
+{{ key }} = {{ value|sort|join(', ') }}
 {%         else %}
-{{ key }} = {{ jk_uchroot[profile][key] }}
+{{ key }} = {{ value }}
 {%         endif %}
 {%       endif %}
 {%     endfor %}

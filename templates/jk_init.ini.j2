@@ -2,11 +2,11 @@
 {% if jk_init is defined %}
 {%   for profile in jk_init|sort %}
 [{{ profile }}]
-{%     for key in jk_init[profile]|sort %}
-{%       if jk_init[profile][key] is iterable %}
-{{ key }} = {{ jk_init[profile][key]|sort|join(', ') }}
+{%     for key, value in jk_init[profile].iteritems()|sort %}
+{%       if value is iterable and value is not string%}
+{{ key }} = {{ value|sort|join(', ') }}
 {%       else %}
-{{ key }} = {{ jk_init[profile][key] }}
+{{ key }} = {{ value }}
 {%       endif %}
 {%     endfor %}
 
