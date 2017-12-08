@@ -1,7 +1,8 @@
 ---
 jk_init:
   basicshell:
-    groups: [ 'root' ]
+    groups:
+      - root
     includesections:
       - uidbasics
     paths:
@@ -40,20 +41,23 @@ jk_init:
       - /etc/issue
       - /etc/bashrc
       - /etc/profile
-    users: [ 'root' ]
+    users:
+      - root
   logbasics:
     need_logsocket: 1
     paths:
       - /etc/localtime
   jk_lsh:
-    groups: [ 'root']
+    groups:
+      - root
     includesections:
       - gidbasics
       - uidbasics
     paths:
       - /etc/jailkit/jk_lsh.ini
       - /sbin/jk_lsh
-    users: [ 'root' ]
+    users:
+      - root
   limitedshell:
     includesections:
       - jk_lsh

@@ -14,7 +14,8 @@ Available variables are listed below, along with default values:
 
     jk_init:
       basicshell:
-        groups: [ 'root' ]
+        groups:
+          - root
         includesections:
           - uidbasics
         paths:
@@ -53,20 +54,23 @@ Available variables are listed below, along with default values:
           - /etc/issue
           - /etc/bashrc
           - /etc/profile
-        users: [ 'root' ]
+        users:
+          - root
       logbasics:
         need_logsocket: '1'
         paths:
           - /etc/localtime
       jk_lsh:
-        groups: [ 'root']
+        groups:
+          - root
         includesections:
           - gidbasics
           - uidbasics
         paths:
           - /etc/jailkit/jk_lsh.ini
           - /sbin/jk_lsh
-        users: [ 'root' ]
+        users:
+          - root
       limitedshell:
         includesections:
           - jk_lsh
@@ -103,7 +107,8 @@ Additional variables that are not defined by default:
         ignorewritableforothers: []
     jk_chrootsh:
       tkimball:
-        env: [ 'DISPLAY' ]
+        env:
+          - DISPLAY
         group: False
         relax_home_group: 1
         relax_home_group_permissions: 1
@@ -176,7 +181,7 @@ Additional variables that are not defined by default:
 
 ## License
 
-BSD
+GPLv3
 
 ## Author Information
 

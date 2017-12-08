@@ -1,15 +1,16 @@
----
-- name: Ensure that jailkit is installed
+--
+- name: Ensure that the jailkit package is installed
   tags: jailkit
+  become: true
   yum:
     enablerepo: lux
     name: jailkit
     state: present
-    update_cache: yes
   register: jailkit_yum
 
 - name: Applying jailkit configurations
   tags: jailkit
+  become: true
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -27,7 +28,7 @@
   when: jailkit_yum|success
 
 - block:
-  - name: Create chroot dirtree if applicable
+  - name: Creating chroot directory tree (if applicable)
     file:
       path: "{{ item.path }}"
       owner: "{{ item.owner }}"
@@ -42,13 +43,14 @@
       - item.group is defined
       - item.mode is defined
 
-  - name: Execute jk_init if applicable
-    shell:
+  - name: Executing jk_init to initialize jails (if applicable)
+    shell: |
       jk_init {{ item.path }} {{ item.profile }}
     with_items: "{{ jk_create }}"
     when:
       - item.path is defined
       - item.profile is defined
   tags: jailkit
+  become: true
   when: jk_create is defined
 ...
