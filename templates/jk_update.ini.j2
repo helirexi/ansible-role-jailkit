@@ -7,7 +7,7 @@
 [{{ jku.path }}]
 {%       for key, value in jku.settings.iteritems()|sort %}
 {%         if value is string %}
-{{ key }} = {{ value|string %}
+{{ key }} = {{ value|string }}
 {%         elif value is number %}
 {{ key }} = {{ value|int }}
 {%         elif value is iterable %}
