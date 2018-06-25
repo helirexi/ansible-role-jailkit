@@ -1,83 +1,10 @@
 ---
-jk_init:
-  basicshell:
-    groups:
-      - root
-    includesections:
-      - uidbasics
-    paths:
-      - /bin/bash
-      - /bin/cat
-      - /bin/chmod
-      - /bin/cp
-      - /bin/cpio
-      - /bin/date
-      - /bin/dd
-      - /bin/echo
-      - /bin/egrep
-      - /bin/false
-      - /bin/fgrep
-      - /bin/grep
-      - /bin/gunzip
-      - /bin/gzip
-      - /bin/ln
-      - /bin/ls
-      - /bin/mkdir
-      - /bin/mktemp
-      - /bin/more
-      - /bin/mv
-      - /bin/pwd
-      - /bin/rm
-      - /bin/rmdir
-      - /bin/sed
-      - /bin/sh
-      - /bin/sleep
-      - /bin/sync
-      - /bin/tar
-      - /bin/touch
-      - /bin/true
-      - /bin/zcat
-      - /etc/motd
-      - /etc/issue
-      - /etc/bashrc
-      - /etc/profile
-    users:
-      - root
-  logbasics:
-    need_logsocket: 1
-    paths:
-      - /etc/localtime
-  jk_lsh:
-    groups:
-      - root
-    includesections:
-      - gidbasics
-      - uidbasics
-    paths:
-      - /etc/jailkit/jk_lsh.ini
-      - /sbin/jk_lsh
-    users:
-      - root
-  limitedshell:
-    includesections:
-      - jk_lsh
-  netbasics:
-    paths:
-      - /lib/libnss_dns.so.2
-      - /lib64/libnss_dns.so.2
-      - /etc/host.conf
-      - /etc/hosts
-      - /etc/protocols
-      - /etc/resolv.conf
-      - /etc/services
-      - /lib/libnss_dns.so.2
-      - /lib64/libnss_dns.so.2
-  uidbasics:
-    paths:
-      - /etc/nsswitch.conf
-      - /etc/ld.so.conf
-      - /lib/libnsl.so.1
-      - /lib/libnss*.so.2
-      - /lib64/libnsl.so.1
-      - /lib64/libnss*.so.2
+jk_check: []
+jk_chrootsh: []
+jk_create: []
+jk_init: []
+jk_lsh: []
+jk_socketd: []
+jk_uchroot: []
+jk_update: []
 ...

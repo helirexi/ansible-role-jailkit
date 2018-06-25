@@ -1,30 +1,24 @@
 # {{ ansible_managed }}
-{% if jk_check is defined %}
-{%   for check in jk_check %}
-{%     if check.path is defined %}
-[{{ check.path }}]
-{%       if check.ignorepatheverywhere is defined %}
-ignorepatheverywhere = {{ check.ignorepatheverywhere|sort|join(', ') }}
-{%       endif %}
-{%       if check.ignorepathoncompare is defined %}
-ignorepathoncompare = {{ check.ignorepathoncompare|sort|join(', ') }} 
-{%       endif %}
-{%       if check.ignoresetuidexecuteforuser is defined %}
-ignoresetuidexecuteforuser = {{ check.ignoresetuidexecuteforuser|sort|join(', ') }}
-{%       endif %}
-{%       if check.ignoresetuidexecuteforgroup is defined %}
-ignoresetuidexecuteforgroup = {{ check.ignoresetuidexecuteforgroup|sort|join(', ') }}
-{%       endif %}
-{%       if check.ignoresetuidexecuteforothers is defined %}
-ignoresetuidexecuteforothers = {{ check.ignoresetuidexecuteforothers|sort|join(', ') }}
-{%       endif %}
-{%       if check.ignorewritableforgroup is defined %}
-ignorewritableforgroup = {{ check.ignorewritableforgroup|sort|join(', ') }}
-{%       endif %}
-{%       if check.ignorewritableforothers is defined %}
-ignorewritableforothers = {{ check.ignorewritableforothers|sort|join(', ') }}
-{%       endif %}
-{%     endif %}
+# jk_check: {{ jk_check|length }}
+{% if jk_check|length > 0 %}
 
+{%   for jkc in jk_check|sort %}
+{%     if jkc.path is defined %}
+[{{ jkc.path }}]
+{%       for key, value in jkc.settings.iteritems()|sort %}
+{%         if value is string %}
+{{ key }} = {{ value|string %}
+{%         elif value is number %}
+{{ key }} = {{ value|int }}
+{%         elif value is iterable %}
+{{ key }} = {{ value|join(', ') }}
+{%         else %}
+{{ key }} = {{ value }}
+{%         endif %}
+{%       endfor %}
+{%     endif %}
+{%     if not loop.last %}
+
+{%     endif %}
 {%   endfor %}
 {% endif %}

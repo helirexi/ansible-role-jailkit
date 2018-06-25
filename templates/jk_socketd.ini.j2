@@ -1,17 +1,23 @@
 # {{ ansible_managed }}
-{% if jk_socketd is defined %}
-{%   for socket in jk_socketd %}
-{%     if socket.path is defined %}
-[{{ socket.path }}]
-{%       if socket.base is defined %}
-base = {{ socket.base }}
-{%       endif %}
-{%       if socket.interval is defined %}
-interval = {{ socket.interval }}
-{%       endif %}
-{%       if socket.peak is defined %}
-peak = {{ socket.peak }}
-{%       endif %}
+# jk_socketd: {{ jk_socketd|length }}
+{% if jk_socketd|length > 0 %}
+
+{%   for jks in jk_socketd|sort %}
+{%     if jks.path is defined %}
+[{{ jks.path }}]
+{%       for key, value in jks.settings.iteritems()|sort %}
+{%         if value is string %}
+{{ key }} = {{ value|string %}
+{%         elif value is number %}
+{{ key }} = {{ value|int }}
+{%         elif value is iterable %}
+{{ key }} = {{ value|join(', ') }}
+{%         else %}
+{{ key }} = {{ value }}
+{%         endif %}
+{%       endfor %}
+{%     endif %}
+{%     if not loop.last %}
 
 {%     endif %}
 {%   endfor %}

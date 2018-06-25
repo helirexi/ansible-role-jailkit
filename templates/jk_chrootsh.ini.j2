@@ -1,20 +1,28 @@
 # {{ ansible_managed }}
-{% if jk_chrootsh is defined %}
-{%   for profile in jk_chrootsh|sort %}
-{%     if jk_chrootsh[profile]['group'] is defined and jk_chrootsh[profile]['group'] %}
-[group {{ profile }}]
-{%     else %}
-[{{ profile }}]
-{%     endif %}
-{%     for key, value in jk_chrootsh[profile].iteritems()|sort %}
-{%       if key != 'group' %}
-{%         if value is iterable and value is not string %}
-{{ key }} = {{ value|sort|join(', ') }}
+# jk_chrootsh: {{ jk_chrootsh|length }}
+{% if jk_chrootsh|length > 0 %}
+
+{%   for jkc in jk_chrootsh|sort %}
+{%     if jkc.name is defined %}
+{%       if jkc.group is defined and jkc.group|bool %}
+[group {{ jkc.name }}]
+{%       else %}
+[{{ jkc.name }}]
+{%       endif %}
+{%       for key, value in jkc.settings.iteritems()|sort %}
+{%         if value is string %}
+{{ key }} = {{ value|string }}
+{%         elif value is number %}
+{{ key }} = {{ value|int }}
+{%         elif value is iterable %}
+{{ key }} = {{ value|join(', ') }}
 {%         else %}
 {{ key }} = {{ value }}
 {%         endif %}
-{%       endif %}
-{%     endfor %}
+{%       endfor %}
+{%     endif %}
+{%     if not loop.last %}
 
+{%     endif %}
 {%   endfor %}
 {% endif %}

@@ -1,14 +1,24 @@
 # {{ ansible_managed }}
-{% if jk_init is defined %}
-{%   for profile in jk_init|sort %}
-[{{ profile }}]
-{%     for key, value in jk_init[profile].iteritems()|sort %}
-{%       if value is iterable and value is not string %}
-{{ key }} = {{ value|sort|join(', ') }}
-{%       else %}
-{{ key }} = {{ value }}
-{%       endif %}
-{%     endfor %}
+# jk_init: {{ jk_init|length }}
+{% if jk_init|length > 0 %}
 
+{%   for jki in jk_init|sort %}
+{%     if jki.name is defined %}
+[{{ jki.name }}]
+{%       for key, value in jki.settings.iteritems()|sort %}
+{%         if value is string %}
+{{ key }} = {{ value|string }}
+{%         elif value is number %}
+{{ key }} = {{ value|int }}
+{%         elif value is iterable %}
+{{ key }} = {{ value|join(', ') }}
+{%         else %}
+{{ key }} = {{ value }}
+{%         endif %}
+{%       endfor %}
+{%     endif %}
+{%     if not loop.last %}
+
+{%     endif %}
 {%   endfor %}
 {% endif %}

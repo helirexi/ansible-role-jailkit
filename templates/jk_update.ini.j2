@@ -1,18 +1,24 @@
 # {{ ansible_managed }}
-{% if jk_update is defined %}
-{%   for update in jk_update %}
-{%     if update.path is defined %}
-[{{ update.path }}]
-{%       if update.directories is defined %}
-directories = {{ update.directories|sort|join(', ') }}
-{%       endif %}
-{%       if update.hardlinks is defined %}
-hardlinks = {{ update.hardlinks }}
-{%       endif %}
-{%       if update.skips is defined %}
-skips = {{ update.skips|sort|join(', ') }}
-{%       endif %}
-{%     endif %}
+# jk_update: {{ jk_update|length }}
+{% if jk_update|length > 0 %}
 
+{%   for jku in jk_update|sort %}
+{%     if jku.path is defined %}
+[{{ jku.path }}]
+{%       for key, value in jku.settings.iteritems()|sort %}
+{%         if value is string %}
+{{ key }} = {{ value|string %}
+{%         elif value is number %}
+{{ key }} = {{ value|int }}
+{%         elif value is iterable %}
+{{ key }} = {{ value|join(', ') }}
+{%         else %}
+{{ key }} = {{ value }}
+{%         endif %}
+{%       endfor %}
+{%     endif %}
+{%     if not loop.last %}
+
+{%     endif %}
 {%   endfor %}
 {% endif %}
