@@ -1,6 +1,7 @@
 ---
 dependencies: []
 galaxy_info:
+  role_name: jailkit
   author: tkimball83
   description: RHEL/CentOS - chroot jail utilities
   license: GPLv3
